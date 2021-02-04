@@ -1,0 +1,140 @@
+#start-board {
+	position: absolute;
+	width: 275px;
+	height: 275px;
+	border: 4px solid #001F1F;
+}
+
+#end-board {
+	position: absolute;
+	top: 345px;
+	width: 275px;
+	height: 275px;
+	border: 4px solid #001F1F;
+}
+
+.tile {
+    position: absolute;
+    border: 2px solid black;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 46px;
+    text-align: center;
+    padding-top: 15px;
+    width: 90px;
+    height: 90px;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;	
+}
+
+.hidden {
+	display: none;
+}
+
+#start-header {
+	position: absolute;
+	top: 272px;
+	margin-top: 3px;
+	padding-left: 90px;
+	padding-right: 90px;
+	background-color: darkgray;
+}
+
+#start-controls {
+	position: absolute;
+	top: 293px;
+	margin-top: 15px;
+	margin-left: 25px;
+}
+
+#end-header {
+	position: absolute;
+	top: 617px;
+	margin-top: 3px;
+	padding-left: 93px;
+	padding-right: 93px;
+	background-color: darkgray;
+}
+
+#end-controls {
+	position: absolute;
+	top: 640px;
+	margin-top: 15px;
+	margin-left: 25px;
+}
+
+#algorithm-header {
+	position: absolute;
+	top: 690px;
+	margin-top: 3px;
+	padding-left: 98.8px;
+	padding-right: 98.8px;
+	background-color: darkgray;
+}
+
+#algo-selection {
+	position: absolute;
+	top: 720px;
+	margin-top: 3px;
+}
+
+#h-selection {
+	position: absolute;
+	top: 750px;
+	margin-top: 3px;
+}
+
+#max-depth {
+	position: absolute;
+	top: 780px;
+	width: 275px;
+}
+
+#depth-limit {
+	position: absolute;
+	top: 812.5px;
+	width: 275px;
+}
+
+#action-controls {
+	position: absolute;
+	top: 848px;
+	width: 275px;
+	padding-left: 112px;
+	padding-right: 112px;
+}
+
+#search-button {
+	position: absolute;
+	left: 25px;
+	padding-left: 29.5px;
+	padding-right: 29.5px;
+}
+
+#reset-button {
+	position: absolute;
+	left: 140px;
+	padding-left: 32px;
+	padding-right: 32px;
+}
+
+.node {
+	cursor: pointer;
+}
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+
+.node text {
+  font: 12px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}
