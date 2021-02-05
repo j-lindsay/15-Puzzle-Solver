@@ -66,18 +66,3 @@ def Astar(start_state, goal_state, actions_f, take_action_f, h_f):
 		for child in children:
 			un_expanded.insert(0, child)
 		un_expanded = sorted(un_expanded, key = lambda x: x.f)
-	
-start_state1 = [0, 8, 1, 4, 2, 3, 7, 6, 5]
-start_state2 = [4, 2, 5, 1, 3, 6, 0, 7, 8]
-start_state3 = [2, 4, 3, 8, 0, 5, 7, 6, 1]
-start_state4 = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-goal_state = [1, 2, 3, 4, 5, 6, 7, 8, 0]
-solution_path = []
-tree = {}
-
-solution_path, tree = Astar(start_state4, goal_state, actions_8p, take_action_8p, lambda s: h_manhattan_sum(s, goal_state))
-print(solution_path)
-print(len(tree))
-
-			
-			
