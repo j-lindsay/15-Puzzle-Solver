@@ -52,10 +52,10 @@
 		</select>
 	</div>
 	<div id="h-selection">
-		<select class="hidden" id="heuristic" style="width: 275px">
+		<select id="heuristic" style="width: 275px">
 			<option selected disabled value="select">(Select)</option>
 			<option value="manhattan">Manhattan Heuristic</option>
-			<option value="Hamming">Hamming Heuristic</option>option>
+			<option value="hamming">Hamming Heuristic</option>option>
 		</select>
 	</div>
 	<div id="node-params">
@@ -66,10 +66,6 @@
 		<button id="search-button" onclick="search()">Search</button>
 		<button id="reset-button" onclick="reset()">Reset</button>
 	</div>
-
-	<div id="solution-visual">
-		
-	</div>
 	
 </body>
 
@@ -77,17 +73,29 @@
 <script type=text/javascript>
 	$('#algo').on('change', function () {
 		if(this.value === "a-star" || this.value === "recursive-best-first"){
-			$("#heuristic").show();
-			$("#node-params").hide();
+			$("#heuristic").prop('disabled', false);
+			$("#max-depth").prop('disabled', true);
+			$("#depth-limit").prop('disabled', true);
 		} else if(this.value === "select") {
-			$("#heuristic").show();
-			$("#node-params").show();
+			$("#heuristic").prop('disabled', false);
+			$("#max-depth").prop('disabled', false);
+			$("#depth-limit").prop('disabled', false);
 		} else {
-			$("#heuristic").hide();
-			$("#node-params").show();
+			$("#heuristic").prop('disabled', true);
+			$("#max-depth").prop('disabled', false);
+			$("#depth-limit").prop('disabled', false);
 		}
 	});
 </script>
+<script>
+function printState() {
+  var btn = document.getElementById('print-state');
+  btn.innerHTML = "CLICK ME";
+  document.getElementById("path").appendChild(btn);
+}
+</script>
 <script src="../static/BoardLogic.js"></script>
+<script src="../static/ParseStates.js"></script>
+<script src="../static/ProcessStates.js"></script>
 
 </html>
