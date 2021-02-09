@@ -1,5 +1,5 @@
 function search() {
-	
+	clearCanvas();
 	const searchParams = {
 		'custom-start': document.getElementById('custom-start').value,
 		'random-start': document.getElementById('random-start').value,
@@ -35,12 +35,14 @@ function search() {
 		//console.log(json.result);
 		solution_tree = flatToHierarchy(json.result)
 		console.log(JSON.stringify(solution_tree, null, 4))
+		setUpCanvas(json.result);
 	});
 	
 	event.preventDefault();
 } 
 
 function reset() {
+	clearCanvas();
 	draw(startBoard, '0 1 2 3 4 5 6 7 8');
 	draw(endBoard, '0 1 2 3 4 5 6 7 8');
 	document.getElementById('custom-start').value = '0 1 2 3 4 5 6 7 8';
@@ -83,10 +85,10 @@ function flatToHierarchy(flat) {
             roots.push(item)
         } else if (item.parent in all) {
             var p = all[item.parent]
-            if (!('Children' in p)) {
-                p.Children = []
+            if (!('children' in p)) {
+                p.children = []
             }
-            p.Children.push(item)
+            p.children.push(item)
         }
     })
     return roots
