@@ -13,21 +13,23 @@ class Node:
 # Passes functions as parameters so we can implement other puzzles while re-using the same implemenation of A*.
 
 def RBFS(start_state, actions_f, take_action_f, goal_test_f, h_f):
-    h = h_f(start_state)
-    g = 0
-    start_node = Node(state=start_state, f=(g + h), g=g, h=h)
-    return RBFS_helper(start_node, actions_f, take_action_f, goal_test_f, h_f, float('inf'))
+	node_count = 0
+	h = h_f(start_state)
+	g = 0
+	start_node = Node(state=start_state, f=(g + h), g=g, h=h)
+	return RBFS_helper(start_node, actions_f, take_action_f, goal_test_f, h_f, float('inf'), node_count)
 
-def RBFS_helper(parent_node, actions_f, take_action_f, goal_test_f, h_f, f_max):
+def RBFS_helper(parent_node, actions_f, take_action_f, goal_test_f, h_f, f_max, node_count):
 	if goal_test_f(parent_node.state):
-		return ([parent_node.state], parent_node.g)
+		return ([parent_node.state], parent_node.g, node_count)
 
 	actions = actions_f(parent_node.state)
 	if not actions:
-		return ('failure', float('inf'))
+		return ('failure', float('inf'), node_count)
 
 	children = []
 	for action in actions:
+		node_count += 1
 		(child_state, step_cost) = take_action_f(parent_node.state, action)
 		g = parent_node.g + step_cost
 		h = h_f(child_state)
@@ -39,48 +41,51 @@ def RBFS_helper(parent_node, actions_f, take_action_f, goal_test_f, h_f, f_max):
 		children = sorted(children, key = lambda x: x.f) # sort by f value
 		best_child = children[0]
 		if best_child.f > f_max:
-			return ('failure', best_child.f)
+			return ('failure', best_child.f, node_count)
 		alternative_f = children[1].f if len(children) > 1 else float('inf')
-		result, best_child.f = RBFS_helper(best_child, actions_f, take_action_f, 
-													goal_test_f, h_f, min(f_max,alternative_f))
+		result, best_child.f, node_count = RBFS_helper(best_child, actions_f, take_action_f, 
+													goal_test_f, h_f, min(f_max,alternative_f), node_count)
 		if result != 'failure':                  
 			result.insert(0, parent_node.state)    
-			return (result, best_child.f)  
+			return (result, best_child.f, node_count)  
 
 def iterative_deepening_search(start_state, goal_state, actions_f, take_action_f, max_depth):
 	for depth in range(max_depth):
-		result = depth_limited_search(start_state, goal_state, actions_f, take_action_f, depth)
+		node_count = 0
+		result, node_count = depth_limited_search(start_state, goal_state, actions_f, take_action_f, depth, node_count)
 		
 		if result == 'failure':
-			return 'failure'
+			return ('failure', node_count)
 		if result != 'cutoff':
 			result.insert(0, start_state)
-			return result
-	return 'cutoff'
+			return (result, node_count)
+	return ('cutoff', node_count)
 
-def depth_limited_search(start_state, goal_state, actions_f, take_action_f, depth_limit):
+def depth_limited_search(start_state, goal_state, actions_f, take_action_f, depth_limit, node_count):
 	if start_state == goal_state:
-		return []
+		return ([], node_count)
 	if depth_limit == 0:
-		return 'cutoff'
+		return ('cutoff', node_count)
 
 	cutoff_occurred = False
 	for action in actions_f(start_state):
+		node_count += 1
 		child_state, step_cost = take_action_f(start_state, action)
-		result = depth_limited_search(child_state, goal_state, actions_f, take_action_f, depth_limit - 1)
+		result, node_count = depth_limited_search(child_state, goal_state, actions_f, take_action_f, depth_limit - 1, node_count)
 		
 		if result == 'cutoff':
 			cutoff_occurred = True
 		elif result != 'failure':
 			result.insert(0, child_state)
-			return result
+			return (result, node_count)
 
 	if cutoff_occurred:
-		return 'cutoff'
+		return ('cutoff', node_count)
 	else:
-		return 'failure'
+		return ('failure', node_count)
 		
 def Astar(start_state, goal_state, actions_f, take_action_f, h_f):
+	node_count = 1
 	h = h_f(start_state)
 	g = 0
 	start_node = Node(state=start_state, f=(g + h), g=g, h=h)
@@ -90,7 +95,7 @@ def Astar(start_state, goal_state, actions_f, take_action_f, h_f):
 	depth = 0
 
 	if (start_state == goal_state):
-		return [start_state]
+		return (start_state, depth, node_count)
 
 	while (len(un_expanded) > 0):
 		best_node = un_expanded.pop(0)
@@ -98,6 +103,7 @@ def Astar(start_state, goal_state, actions_f, take_action_f, h_f):
 		children = []
 		actions = actions_f(best_node.state)
 		for action in actions:
+			node_count += 1
 			(child_state, step_cost) = take_action_f(best_node.state, action)
 			g = best_node.g + step_cost
 			h = h_f(child_state)
@@ -126,7 +132,7 @@ def Astar(start_state, goal_state, actions_f, take_action_f, h_f):
 				solution_path.insert(0, goal_state)
 				goal_state = came_from[tuple(goal_state)]
 			solution_path.insert(0, start_state)
-			return (solution_path, depth)
+			return (solution_path, depth, node_count)
 			
 		for child in children:
 			un_expanded.insert(0, child)

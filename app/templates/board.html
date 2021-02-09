@@ -70,6 +70,7 @@
 </body>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
 <script type=text/javascript>
 	$('#algo').on('change', function () {
 		if(this.value === "a-star" || this.value === "recursive-best-first"){
@@ -87,15 +88,8 @@
 		}
 	});
 </script>
-<script>
-function printState() {
-  var btn = document.getElementById('print-state');
-  btn.innerHTML = "CLICK ME";
-  document.getElementById("path").appendChild(btn);
-}
-</script>
 <script src="../static/BoardLogic.js"></script>
+<script src="../static/Visualization.js"></script>
 <script src="../static/ParseStates.js"></script>
 <script src="../static/ProcessStates.js"></script>
-
 </html>
