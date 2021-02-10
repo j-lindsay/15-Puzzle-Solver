@@ -35,7 +35,7 @@ def transform_to_flat(solution):
 @app.route('/')
 @app.route('/board')
 def output():
-	return render_template('board.html', title='15 Puzzle')
+	return render_template('board.html', title='8 Puzzle Solver')
 	
 @app.route('/receiver', methods=['POST'])
 def receiver():
